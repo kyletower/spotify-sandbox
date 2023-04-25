@@ -40,23 +40,13 @@ const getToken = async () => {
 // console.log(token);
 
 const getArtist = async (artistId) => {
-  console.log(artistId);
+  //   console.log(artistId);
   const options = {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
     headers: {
       // 'Content-Type': 'application/json',
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    // body:
-    //   'grant_type=client_credentials&client_id=' +
-    //   CLIENT_ID +
-    //   '&client_secret=' +
-    //   CLIENT_SECRET, // body data type must match "Content-Type" header
   };
 
   const res = await fetch(
@@ -69,4 +59,30 @@ const getArtist = async (artistId) => {
   return jsonData;
 };
 
-getArtist('50JJSqHUf2RQ9xsHs0KMHg');
+const search = async (query) => {
+  console.log(`Searching for ${query}`);
+  const options = {
+    mode: 'cors', // no-cors, *cors, same-origin
+    headers: {
+      // 'Content-Type': 'application/json',
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+    },
+  };
+
+  const res = await fetch(
+    `https://api.spotify.com/v1/search/?q=${query}&type=track,artist,album`,
+    options
+  );
+  const jsonData = await res.json();
+  const tracks = jsonData.tracks.items;
+  //   console.log(tracks);
+  for (let track of tracks) {
+    console.log(`${track.name}`);
+  }
+
+  return jsonData.tracks;
+};
+
+// getArtist('50JJSqHUf2RQ9xsHs0KMHg');
+search('hopsin');
+// getToken();
