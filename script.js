@@ -40,11 +40,8 @@ const getToken = async () => {
 // console.log(token);
 
 const getArtist = async (artistId) => {
-  //   console.log(artistId);
   const options = {
-    mode: 'cors', // no-cors, *cors, same-origin
     headers: {
-      // 'Content-Type': 'application/json',
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
   };
@@ -53,18 +50,18 @@ const getArtist = async (artistId) => {
     `https://api.spotify.com/v1/artists/${artistId}`,
     options
   );
-  const jsonData = await res.json();
-  console.log(jsonData);
 
-  return jsonData;
+  const artist = await res.json();
+  console.log(artist);
+
+  return artist;
 };
 
 const search = async (query) => {
   console.log(`Searching for ${query}`);
+
   const options = {
-    mode: 'cors', // no-cors, *cors, same-origin
     headers: {
-      // 'Content-Type': 'application/json',
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
   };
@@ -73,16 +70,17 @@ const search = async (query) => {
     `https://api.spotify.com/v1/search/?q=${query}&type=track,artist,album`,
     options
   );
-  const jsonData = await res.json();
-  const tracks = jsonData.tracks.items;
-  //   console.log(tracks);
+
+  const searchResults = await res.json();
+  const tracks = searchResults.tracks.items;
+
   for (let track of tracks) {
     console.log(`${track.name}`);
   }
 
-  return jsonData.tracks;
+  return;
 };
 
-// getArtist('50JJSqHUf2RQ9xsHs0KMHg');
-search('hopsin');
+getArtist('50JJSqHUf2RQ9xsHs0KMHg');
+// search('hopsin');
 // getToken();
