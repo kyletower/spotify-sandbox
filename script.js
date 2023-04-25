@@ -4,9 +4,9 @@ require('dotenv').config();
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
-console.log(CLIENT_ID);
-console.log(CLIENT_SECRET);
-console.log(ACCESS_TOKEN);
+// console.log(CLIENT_ID);
+// console.log(CLIENT_SECRET);
+// console.log(ACCESS_TOKEN);
 
 const getToken = async () => {
   const options = {
@@ -48,7 +48,7 @@ const getArtist = async (artistId) => {
     credentials: 'same-origin', // include, *same-origin, omit
     headers: {
       // 'Content-Type': 'application/json',
-      Authentication: `Bearer ${ACCESS_TOKEN}`,
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
     },
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
