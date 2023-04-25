@@ -11,33 +11,18 @@ const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 const getToken = async () => {
   const options = {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
     headers: {
-      // 'Content-Type': 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body:
-      'grant_type=client_credentials&client_id=' +
-      CLIENT_ID +
-      '&client_secret=' +
-      CLIENT_SECRET, // body data type must match "Content-Type" header
+    body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
   };
 
   const res = await fetch('https://accounts.spotify.com/api/token', options);
-  const jsonData = await res.json();
-  console.log(jsonData);
+  const token = await res.json();
+  console.log(token);
 
-  return jsonData;
+  return token;
 };
-
-// Access token
-// const token = getToken();
-// console.log('ACCESS TOKEN: ');
-// console.log(token);
 
 const getArtist = async (artistId) => {
   const options = {
