@@ -56,13 +56,14 @@ const search = async (query) => {
   const searchResults = await res.json();
   const tracks = searchResults.tracks.items;
 
+  let i = 1;
   for (let track of tracks) {
-    console.log(`${track.name}`);
+    console.log(`${i++} ${track.name}`);
   }
 
   return;
 };
 
-getArtist('50JJSqHUf2RQ9xsHs0KMHg');
-// search('hopsin');
+// getArtist('50JJSqHUf2RQ9xsHs0KMHg');
+search('NF');
 // getToken();
