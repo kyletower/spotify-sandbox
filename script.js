@@ -7,6 +7,9 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
 const EXPIRED_MESSAGE = 'The access token expired';
 
+// Selectors
+const searchResults = document.querySelector('#search-results');
+
 const getToken = async () => {
   const options = {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -43,6 +46,10 @@ const search = async (query) => {
   let i = 1;
   for (let track of tracks) {
     console.log(`${i++} ${track.name}`);
+    const newParagraph = document.createElement(p);
+    const newContent = document.createTextNode(`${i++} ${track.name}`);
+    newParagraph.appendChild(newContent);
+    searchResults.appendChild(newParagraph);
   }
 
   return;
