@@ -1,9 +1,11 @@
 // Using Spotify Docs: https://developer.spotify.com/documentation/web-api/tutorials/getting-started#create-an-app
+// YouTube: Maker At Play Coding -- https://www.youtube.com/watch?v=1vR3m0HupGI
 require('dotenv').config();
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+const EXPIRED_MESSAGE = 'The access token expired';
 
 const getToken = async () => {
   const options = {
@@ -18,25 +20,7 @@ const getToken = async () => {
   const token = await res.json();
   console.log(token);
 
-  return token;
-};
-
-const getArtist = async (artistId) => {
-  const options = {
-    headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-  };
-
-  const res = await fetch(
-    `https://api.spotify.com/v1/artists/${artistId}`,
-    options
-  );
-
-  const artist = await res.json();
-  console.log(artist);
-
-  return artist;
+  return token.access_token;
 };
 
 const search = async (query) => {
@@ -62,6 +46,40 @@ const search = async (query) => {
   }
 
   return;
+};
+
+const getArtist = async (artistId) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+    },
+  };
+
+  try {
+    const res = await fetch(
+      `https://api.spotify.com/v1/artists/${artistId}`,
+      options
+    );
+
+    if (!res.ok) {
+      const err = await res.json();
+      console.log(`${err.error.status} - ${err.error.message}`);
+
+      if ((err.error.message = EXPIRED_MESSAGE)) {
+        console.log('Requesting a new token...');
+        const TOKEN = getToken();
+      }
+
+      return err;
+    }
+
+    const artist = await res.json();
+    console.log(artist);
+
+    return artist;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // getArtist('50JJSqHUf2RQ9xsHs0KMHg');
